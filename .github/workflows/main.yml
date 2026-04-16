@@ -16,7 +16,7 @@ jobs:
           python-version: '3.9'
           
       - name: Install dependencies
-        run: pip install requests google-generativeai
+        run: pip install -U requests google-generativeai  # 加入 -U 代表安裝最新版
         
       - name: Run solver
         env:

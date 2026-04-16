@@ -2,14 +2,14 @@ import os
 import requests
 import google.generativeai as genai
 
-# 1. 設定 AI
+# 1. 設定 AI (確保名稱與最新 SDK 一致)
 try:
     genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-    # 使用 gemini-pro 是最穩定的
-    model = genai.GenerativeModel('gemini-pro')
-    print("AI 模型載入成功")
+    # 這是目前最穩定的名稱
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    print("AI 引擎載入成功，準備解題...")
 except Exception as e:
-    print(f"AI 設定失敗: {e}")
+    print(f"AI 設定出錯: {e}")
 
 def solve_leetcode():
     url = "https://leetcode.com/graphql"
@@ -23,19 +23,19 @@ def solve_leetcode():
         title = question['title']
         content = question['content']
         
-        print(f"正在解題：{title}...")
+        print(f"正在分析題目：{title}...")
         
         # 2. 叫 AI 解題
-        prompt = f"請幫我用 Python 解這道 LeetCode 題目：{title}\n內容：{content}\n請只輸出程式碼，不要廢話。"
+        prompt = f"請幫我用 Python 解這道 LeetCode 題目：{title}\n題目內容：{content}\n請只輸出程式碼，不要廢話。"
         response = model.generate_content(prompt)
         
-        # 處理 AI 回傳的文字，去掉 Markdown 標籤
+        # 去掉 Markdown 符號
         answer = response.text.strip().replace('```python', '').replace('```', '')
 
-        # 3. 儲存成檔案
+        # 3. 儲存成檔案 (如果權限開了，這步就會成功)
         with open("solution.py", "w", encoding="utf-8") as f:
             f.write(answer)
-        print("解法已儲存至 solution.py")
+        print("🎉 成功！解法已儲存到 solution.py")
             
     except Exception as e:
         print(f"執行出錯: {e}")

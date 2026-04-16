@@ -1,29 +1,23 @@
 name: Daily LeetCode Solver
 on:
-  schedule:
-    - cron: '0 1 * * *' # 每天台灣時間早上 9 點自動執行
-  workflow_dispatch:      # 讓你可以手動點擊執行測試
+  workflow_dispatch:      # 讓你可以點按鈕手動測試
 
 jobs:
   solve:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
-          
+          python-version: '3.10' # 換成新一點的 Python
       - name: Install dependencies
-        run: pip install -U requests google-generativeai  # 加入 -U 代表安裝最新版
-        
+        run: pip install -U requests google-generativeai # -U 是關鍵，強制更新
       - name: Run solver
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python main.py
-        
-      - name: Commit and Push solution
+      - name: Commit and Push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"

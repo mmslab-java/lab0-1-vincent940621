@@ -4,7 +4,7 @@ import google.generativeai as genai
 
 # 1. 設定 AI (使用你的 Gemini Key)
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
 def solve_leetcode():
     # 這裡我們使用 LeetCode 的 GraphQL API 抓取每日一題
